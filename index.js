@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 
 // Node server which will handle socket io connections
 
@@ -9,6 +10,11 @@ app.use(express.static('public'))
 
 const server = app.listen(4000, ()=>{
     console.log("main server up at :4000");
+})
+
+app.get('/getKeys', (req,res)=>{
+    let rsa_front = fs.createReadStream(__dirname+'/public/RSA_KEY_GENERATOR/rsa_front.html');
+    rsa_front.pipe(res);
 })
 
 const io = require('socket.io')(server);
