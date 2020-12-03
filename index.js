@@ -1,9 +1,22 @@
+const express = require('express');
+
 // Node server which will handle socket io connections
-const io = require('socket.io')(8000)
+
+
+const app = express();
+
+app.use(express.static('public'))
+
+const server = app.listen(4000, ()=>{
+    console.log("main server up at :4000");
+})
+
+const io = require('socket.io')(server);
 
 const users = {};
 
 io.on('connection', socket =>{
+    console.log("new connnection")
     // If any new user joins, let other users connected to the server know!
     socket.on('new-user-joined', name =>{ 
         users[socket.id] = name;
